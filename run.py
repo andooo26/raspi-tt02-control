@@ -47,7 +47,8 @@ while True:
     pwm.set_pwm(1, 0, steering)
     time.sleep(0.01)
     check = (buttons & cwiid.BTN_HOME)
-    
+  
+  # 停止, スロットル初期化
   else:
     pwm.set_pwm(0, 0, 450)
     pwm.set_pwm(1, 0, 400)
