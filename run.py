@@ -20,7 +20,7 @@ wii.rpt_mode = cwiid.RPT_BTN
 
 # pwmセット
 button_delay = 0.1
-pwm.set_pwm(0, 0, 450)
+pwm.set_pwm(0, 0, 390)
 pwm.set_pwm(1, 0, 400)
 
 while True:
@@ -37,8 +37,23 @@ while True:
   
   # 前進
   if (buttons & cwiid.BTN_2):
-    print ('Button 2 pressed')
-    pwm.set_pwm(0, 0, 380)
+    print ('前進')
+    pwm.set_pwm(0, 0, 370)
+    # 傾き
+    wii.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_ACC
+    check = 0
+    steering = -2 * (wii.state['acc'])[1] + 650
+    print(steering)
+    pwm.set_pwm(1, 0, steering)
+    time.sleep(0.01)
+    check = (buttons & cwiid.BTN_HOME)
+  
+  # 後進
+  elif (buttons & cwiid.BTN_1):
+    print ('後退')
+    pwm.set_pwm(0, 0, 415)
+    pwm.set_pwm(0, 0, 390)
+    pwm.set_pwm(0, 0, 415)
     # 傾き
     wii.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_ACC
     check = 0
@@ -50,5 +65,9 @@ while True:
   
   # 停止, スロットル初期化
   else:
-    pwm.set_pwm(0, 0, 450)
+    pwm.set_pwm(0, 0, 390)
     pwm.set_pwm(1, 0, 400)
+    
+  # 390ニュートラル
+  # 370前進
+  # 415後進
